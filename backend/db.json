@@ -1,0 +1,33 @@
+{
+  "reservations": [
+    {
+      "id": "r1",
+      "mid": "m1",
+      "room": "a"
+    },
+    {
+      "id": "r2",
+      "mid": "m2",
+      "room": "b"
+    },
+    {
+      "id": "c319",
+      "mid": "m1",
+      "room": "c"
+    }
+  ],
+  "members": [
+    {
+      "id": "m1",
+      "member": "josh"
+    },
+    {
+      "id": "m2",
+      "member": "dosie"
+    },
+    {
+      "id": "8ee0",
+      "member": "gorven"
+    }
+  ]
+}

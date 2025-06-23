@@ -10,7 +10,7 @@ useEffect(() => {
 
 async function fetchData() {
    try {
-      const r = await fetch(`http://localhost:3000/members`)
+      const r = await fetch(`${import.meta.env.VITE_API_URL}/members`)
       if(!r.ok) {
          throw new Error("💥 Error");
       }
@@ -21,7 +21,7 @@ async function fetchData() {
 
 async function handleAdd(newMem) {
    try {
-      const r = await fetch(`http://localhost:3000/members`, {
+      const r = await fetch(`${import.meta.env.VITE_API_URL}/members`, {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json'
@@ -39,7 +39,7 @@ async function handleAdd(newMem) {
 
 async function handleEdit(updatedMem) {
    try {
-      const r = await fetch(`http://localhost:3000/members/${updatedMem.id}`, {
+      const r = await fetch(`${import.meta.env.VITE_API_URL}/members/${updatedMem.id}`, {
          method: 'PATCH',
          headers: {
             'Content-Type': 'application/json'
@@ -59,7 +59,7 @@ async function handleEdit(updatedMem) {
 
 async function handleDelete(memId) {
    try {
-      const r = await fetch(`http://localhost:3000/members/${memId}`, {
+      const r = await fetch(`${import.meta.env.VITE_API_URL}/members/${memId}`, {
          method: 'DELETE'
       })
            if(!r.ok) {

@@ -9,7 +9,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start:backend": "json-server ../backend/db.json --port 3000 --routes ../backend/routes.json" 
+    "start:backend": "json-server ../backend/db.json --port 3000 --cors" 
   },
   "dependencies": {
     "json-server": "^0.17.4", 

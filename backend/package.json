@@ -1,0 +1,16 @@
+{
+  "name": "app-sterling-backend",
+  "version": "1.0.0",
+  "description": "JSON Server for App Sterling backend API",
+  "main": "server.js",
+  "scripts": {
+    "start": "json-server db.json --port 3000 --routes routes.json",
+    "start:dev": "json-server db.json --port 3000 --routes routes.json --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "json-server": "^1.0.0-beta.3"
+  }
+}

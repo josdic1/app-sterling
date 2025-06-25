@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react"
-import ReservationContext from "../context/ReservationContext"
+import ReservationContext from "../contexts/ReservationContext"
 
 function ReservationProvider({children}) {
    const [ reservations, setReservations ] = useState([])
+    const [ loading, setLoading ] = useState(true)
 
 useEffect(() => {
    fetchData()
@@ -10,13 +11,17 @@ useEffect(() => {
 
 async function fetchData() {
    try {
+      setLoading(true)
       const r = await fetch(`${import.meta.env.VITE_API_URL}/reservations`)
       if(!r.ok) {
          throw new Error("💥 Error");
       }
       const data = await r.json()
       setReservations(data)
-   }catch (error) {console.error("❌ Caught error:", error);}
+   }catch (error) {console.error("❌ Caught error:", error);
+                } finally {
+            setLoading(false)
+   }
 }
 
 async function handleAdd(newRes) {
@@ -34,7 +39,11 @@ async function handleAdd(newRes) {
       const data = await r.json()
       const updated = [...reservations, data]
       setReservations(updated)
-    }catch (error) {console.error("❌ Caught error:", error);}
+    }catch (error) {console.error("❌ Caught error:", error)
+                } finally {
+            setLoading(false); 
+            fetchData()
+   }
 }
 
 async function handleEdit(updatedRes) {
@@ -54,8 +63,13 @@ async function handleEdit(updatedRes) {
          res.id === data.id ? data : res
       ))
       setReservations(updated)
-    }catch (error) {console.error("❌ Caught error:", error);}
+    }catch (error) {console.error("❌ Caught error:", error)
+                      } finally {
+            setLoading(false); 
+            fetchData()
+   }
 }
+
 
 async function handleDelete(resId) {
    try {
@@ -76,7 +90,7 @@ async function handleDelete(resId) {
 return (
 <>
 <ReservationContext.Provider
-value={{ reservations, handleAdd, handleEdit, handleDelete }}
+value={{ reservations, loading, handleAdd, handleEdit, handleDelete }}
 >
    {children}
 </ReservationContext.Provider>

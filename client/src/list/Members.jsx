@@ -1,28 +1,35 @@
 import { useNavigate } from "react-router-dom"
 import { useContext } from "react"
-import Member from "../components/Member"
-import MemberContext from "../context/MemberContext"
+import MemberCard from "../components/MemberCard"
+import MemberContext from "../contexts/MemberContext"
 
 function Members() {
     const { members, handleDelete } = useContext(MemberContext)
 
     const navigate = useNavigate()
 
-    const onEditClick = (memberId) => {
-        navigate(`/edit/member/${memberId}`)
-    }
-
-    const onDeleteClick = (memberId) => {
-        handleDelete(memberId)
-        navigate("/")
+    function onListClick(id, name) {
+        switch(name) {
+            case 'view':
+                navigate(`/member/${id}`)
+                break;
+            case 'edit':
+                navigate(`/edit/member/${id}`)
+                break;
+            case 'delete':
+                handleDelete(id)
+                navigate(`/members`)
+                break;
+            default:
+                break;
+        }
     }
 
     const listData = members.map(mem => (
-        <Member 
+        <MemberCard 
         key={mem.id} 
         member={mem} 
-        onEditClick={onEditClick}
-        onDeleteClick={onDeleteClick}
+        onListClick={onListClick}
         />
     ))
 
@@ -32,7 +39,9 @@ return (
     <thead>
         <tr>
             <th>ID</th>
-            <th>Name</th>
+            <th>Member</th>
+            <th>Role</th>
+            <th>View</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react"
-import MemberContext from "../context/MemberContext"
+import MemberContext from "../contexts/MemberContext"
 
 function MemberProvider({children}) {
    const [ members, setMembers ] = useState([])
+   const [ loading, setLoading ] = useState(true)
 
 useEffect(() => {
    fetchData()
@@ -10,13 +11,17 @@ useEffect(() => {
 
 async function fetchData() {
    try {
+      setLoading(false)
       const r = await fetch(`${import.meta.env.VITE_API_URL}/members`)
       if(!r.ok) {
          throw new Error("💥 Error");
       }
       const data = await r.json()
       setMembers(data)
-   }catch (error) {console.error("❌ Caught error:", error);}
+   }catch (error) {console.error("❌ Caught error:", error)
+          } finally {
+            setLoading(false); 
+   }
 }
 
 async function handleAdd(newMem) {
@@ -34,7 +39,11 @@ async function handleAdd(newMem) {
       const data = await r.json()
       const updated = [...members, data]
       setMembers(updated)
-    }catch (error) {console.error("❌ Caught error:", error);}
+    }catch (error) {console.error("❌ Caught error:", error)
+          } finally {
+            setLoading(false); 
+            fetchData()
+   }
 }
 
 async function handleEdit(updatedMem) {
@@ -54,7 +63,11 @@ async function handleEdit(updatedMem) {
          mem.id === data.id ? data : mem
       ))
       setMembers(updated)
-    }catch (error) {console.error("❌ Caught error:", error);}
+    }catch (error) {console.error("❌ Caught error:", error)
+                } finally {
+            setLoading(false); 
+            fetchData()
+   }
 }
 
 async function handleDelete(memId) {
@@ -70,13 +83,17 @@ async function handleDelete(memId) {
          mem.id !== data.id
       ))
       setMembers(updated)
-    }catch (error) {console.error("❌ Caught error:", error);}
+    }catch (error) {console.error("❌ Caught error:", error)
+                } finally {
+            setLoading(false); 
+            fetchData()
+   }
 }
 
 return (
 <>
 <MemberContext.Provider
-value={{ members, handleAdd, handleEdit, handleDelete }}
+value={{ members, loading, handleAdd, handleEdit, handleDelete }}
 >
    {children}
 </MemberContext.Provider>

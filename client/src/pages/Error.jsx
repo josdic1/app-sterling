@@ -1,5 +1,5 @@
 import { useRouteError } from "react-router-dom"
-
+import NavBar from "../components/NavBar"
 function Error() {
 
     const error = useRouteError()
@@ -7,7 +7,7 @@ function Error() {
 return (
 <>
 <header>
-
+<NavBar />
 </header>
 <main>
 <h3>Error: {error?.message || "NO ERROR MESSAGE" }</h3>

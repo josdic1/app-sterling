@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom"
 import { useState, useContext } from "react"
-import MemberContext from "../context/MemberContext"
+import MemberContext from "../contexts/MemberContext"
 
 function NewMember () {
     const { handleAdd } = useContext(MemberContext)
     
     const [ formData, setFormData ] = useState({
-        member: ""
+        member: "",
+        role: ""
     })
 
     const navigate = useNavigate()
@@ -22,7 +23,9 @@ function NewMember () {
     function onSubmit(e) {
         e.preventDefault()
         const newMember = {
-            ...formData
+            ...formData,
+            member: formData.member.toLowerCase(),
+            role: formData.role || "user"
         }
         handleAdd(newMember)
          onCancel()
@@ -30,14 +33,15 @@ function NewMember () {
 
     function onClear() {
         setFormData({
-          member: ""  
+        member: "",
+        role: ""
         })
        
     }
 
     function onCancel() {
         onClear()
-        navigate('/')
+        navigate('/home')
     }
 
 return (
@@ -45,6 +49,10 @@ return (
 <form onSubmit={onSubmit}>
     <label htmlFor="member"> Member: </label>
     <input type="text" id="member" name="member" onChange={onFormChange} value={formData.member} placeholder="Member name..." />
+        <select id="role" name="role" onChange={onFormChange} value={formData.role}>
+        <option value="user">User</option>
+         <option value="admin">Admin</option>
+    </select>
     <button type='submit'> Submit </button>
     <button type='button' onClick={onClear}> Clear </button>
     <button type='button' onClick={onCancel}> Cancel </button>
